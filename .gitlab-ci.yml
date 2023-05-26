@@ -1,0 +1,17 @@
+image: node:latest
+
+stages:
+  - build
+
+cache:
+  paths:
+    - node_modules/
+
+build-deploy-job:
+  stage: build
+  script:
+    - cd Assignment 1/individual/classmate
+    - npm install
+    - npm run build
+    - npm install -g netlify-cli
+    - netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID --dir build/
