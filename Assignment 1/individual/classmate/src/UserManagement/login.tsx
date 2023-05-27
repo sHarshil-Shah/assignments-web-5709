@@ -36,36 +36,35 @@ const Login: React.FC = () => {
   const fields = {
     email: '',
     password: '',
-    general: ''
   };
   const [formData, setFormData] = useState(fields);
-  const [errors, setErrors] = useState(fields);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const validateForm = () => {
-    let errors = fields;
+    let error = '';
 
     // Validate email
     if (!formData.email) {
-      errors.email = 'Email is required';
+      error = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Invalid email format';
+      error = 'Invalid email format';
     }
 
     // Validate password
     if (!formData.password) {
-      errors.password = 'Password is required';
+      error = 'Password is required';
     }
 
-    setErrors(errors);
+    setErrorMessage(error);
 
-    console.log(errors);
+    console.log(error);
 
     // Return true if there are no errors
-    return Object.values(errors).every(value => value === '');
+    return error === '';
   };
 
 
@@ -93,11 +92,7 @@ const Login: React.FC = () => {
           navigate('/stud');
           break;
         default:
-          errors.email = '';
-          errors.password = '';
-          errors.general = 'Wrong Email or Password!';
-
-          setErrors(errors);
+          setErrorMessage('Wrong Email or Password!');
           break;
       }
 
@@ -141,12 +136,7 @@ const Login: React.FC = () => {
                   />
                   <Input name="email" value={formData.email} onChange={handleChange} type="email" placeholder="email address" />
                 </InputGroup>
-                {errors.email !== '' && (
-                  <Alert status="error" marginTop="2">
-                    <AlertIcon />
-                    {errors.email}
-                  </Alert>
-                )}
+
               </FormControl>
               <FormControl>
                 <InputGroup>
@@ -166,13 +156,7 @@ const Login: React.FC = () => {
                   </InputRightElement>
 
                 </InputGroup>
-                {errors.password !== '' && (
-                  <Alert status="error" marginTop="2">
-                    <AlertIcon />
-                    {errors.password}
-                  </Alert>
-                )
-                }
+
                 <FormHelperText textAlign="right">
                   <Link onClick={openForgetPasswordModal}>forgot password?</Link>
                 </FormHelperText>
@@ -189,13 +173,13 @@ const Login: React.FC = () => {
               </Button>
             </Stack>
           </form>
+          {errorMessage !== '' && (
+            <Alert status="error" marginTop="2">
+              <AlertIcon />
+              {errorMessage}
+            </Alert>
+          )}
         </Box>
-        {errors.general !== '' && (
-          <Alert status="error" marginTop="2">
-            <AlertIcon />
-            {errors.general}
-          </Alert>
-        )}
       </Stack>
 
       <ForgetPasswordModal

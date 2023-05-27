@@ -44,7 +44,7 @@ const TableWithFilters = () => {
 
     return (
         <><TitleBar></TitleBar>
-            <Table variant="striped" mt={30}>
+            <Table variant="striped" marginTop="5rem">
                 <Thead>
                     <Tr>
                         <Th>No</Th>

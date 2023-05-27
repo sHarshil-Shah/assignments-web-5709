@@ -45,11 +45,10 @@ const SignUp: React.FC = () => {
         pass: '',
         conpass: '',
         utype: '',
-        generalError: ''
     };
 
 
-    const [errors, setErrors] = useState(fields);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
@@ -79,41 +78,41 @@ const SignUp: React.FC = () => {
     };
 
     const validateForm = () => {
-        let errors = fields;
+        let error = "";
 
         // Validate email
         if (!formData.email) {
-            errors.email = 'Email is required';
+            error = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            errors.email = 'Invalid email format';
+            error = 'Invalid email format';
         }
 
         // Validate password
         if (!formData.pass) {
-            errors.pass = 'Password is required';
+            error = 'Password is required';
         }
 
         if (!formData.conpass) {
-            errors.conpass = 'Confirm Password is required and should be same as Password!';
+            error = 'Confirm Password is required and should be same as Password!';
         } else if (formData.pass !== formData.conpass) {
-            errors.conpass = 'Should be same as Password!';
+            error = 'Confirm Password should be same as Password!';
         }
 
         if (!formData.fname) {
-            errors.fname = 'First Name is Required';
+            error = 'First Name is Required';
         }
 
 
         if (!formData.lname) {
-            errors.lname = 'Last Name is required';
+            error = 'Last Name is required';
         }
 
-        setErrors(errors);
+        setErrorMessage(error);
 
-        console.log(errors);
+        console.log(error);
 
         // Return true if there are no errors
-        return Object.values(errors).every(value => value === '');
+        return error === '';
     };
 
     return (
@@ -149,12 +148,7 @@ const SignUp: React.FC = () => {
                                     <Input name="email" value={formData.email} onChange={handleChange} type="email" placeholder="email address" />
                                 </InputGroup>
                             </FormControl>
-                            {errors.email !== '' && (
-                                <Alert status="error" marginTop="2">
-                                    <AlertIcon />
-                                    {errors.email}
-                                </Alert>
-                            )}
+
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
@@ -163,12 +157,7 @@ const SignUp: React.FC = () => {
                                     <Input type="text" name="fname" value={formData.fname} onChange={handleChange} placeholder="First Name" />
                                 </InputGroup>
                             </FormControl>
-                            {errors.fname !== '' && (
-                                <Alert status="error" marginTop="2">
-                                    <AlertIcon />
-                                    {errors.fname}
-                                </Alert>
-                            )}
+
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
@@ -177,12 +166,7 @@ const SignUp: React.FC = () => {
                                     <Input type="text" name="lname" value={formData.lname} onChange={handleChange} placeholder="Last Name" />
                                 </InputGroup>
                             </FormControl>
-                            {errors.lname !== '' && (
-                                <Alert status="error" marginTop="2">
-                                    <AlertIcon />
-                                    {errors.lname}
-                                </Alert>
-                            )}
+
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
@@ -199,12 +183,7 @@ const SignUp: React.FC = () => {
                                     </InputRightElement>
                                 </InputGroup>
                             </FormControl>
-                            {errors.pass !== '' && (
-                                <Alert status="error" marginTop="2">
-                                    <AlertIcon />
-                                    {errors.pass}
-                                </Alert>
-                            )}
+
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
@@ -222,12 +201,7 @@ const SignUp: React.FC = () => {
                                     </InputRightElement>
                                 </InputGroup>
                             </FormControl>
-                            {errors.conpass !== '' && (
-                                <Alert status="error" marginTop="2">
-                                    <AlertIcon />
-                                    {errors.conpass}
-                                </Alert>
-                            )}
+                           
                             <FormControl>
                                 <InputGroup>
                                     <RadioGroup name="utype" onChange={setValue} value={value}>
@@ -249,12 +223,12 @@ const SignUp: React.FC = () => {
                             </Button>
                         </Stack>
                     </form>
-                    {errors.generalError !== '' && (
-                                <Alert status="error" marginTop="2">
-                                    <AlertIcon />
-                                    {errors.generalError}
-                                </Alert>
-                            )}
+                    {errorMessage !== '' && (
+                        <Alert status="error" marginTop="2">
+                            <AlertIcon />
+                            {errorMessage}
+                        </Alert>
+                    )}
                 </Box>
             </Stack>
 
