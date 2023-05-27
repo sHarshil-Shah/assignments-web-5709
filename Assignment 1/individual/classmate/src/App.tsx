@@ -1,11 +1,11 @@
-import React from 'react';
 import './App.css';
-import Login from './UserManagement/login';
+import TitleBar from './global/header';
+import AppRouter from './router';
 
 function App() {
   return (
-    <Login />
-  );
+    <AppRouter />
+    );
 }
 
 export default App;
