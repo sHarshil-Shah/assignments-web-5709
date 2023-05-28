@@ -15,4 +15,4 @@ build-deploy-job:
     - npm install
     - npm run build
     - npm install -g netlify-cli
-    - netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID --dir build/
+    - netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID --dir dist/
