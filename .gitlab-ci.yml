@@ -11,6 +11,7 @@ build-deploy-job:
   stage: build
   script:
     - cd "Assignment 1/individual/classmate"
+    - npm install -g create-vite
     - npm install
     - npm run build
     - npm install -g netlify-cli
