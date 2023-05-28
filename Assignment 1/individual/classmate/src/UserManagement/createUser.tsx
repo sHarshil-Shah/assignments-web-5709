@@ -13,7 +13,9 @@ import {
     FormControl,
     InputRightElement,
     Radio, RadioGroup,
-    useToast
+    useToast,
+    Alert,
+    AlertIcon
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaPortrait } from "react-icons/fa";
 import TitleBar from '../global/header';
@@ -36,38 +38,83 @@ const SignUp: React.FC = () => {
 
     const [value, setValue] = React.useState('1');
 
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
-        // Perform form submission logic here
-        console.log('Form submitted:', formData);
-        // Reset form fields
-        setFormData({
-            email: '',
-            fname: '',
-            lname: '',
-            pass: '',
-            conpass: '',
-            utype: ''
-        });
-
-        toast({
-            title: 'Form Submitted',
-            description: `Username: ${formData.email}, Password: ${formData.pass}`,
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-        });
-
-    };
-
-    const [formData, setFormData] = useState({
+    const fields = {
         email: '',
         fname: '',
         lname: '',
         pass: '',
         conpass: '',
-        utype: ''
-    });
+        utype: '',
+        generalError: ''
+    };
 
+
+    const [errors, setErrors] = useState(fields);
+
+    const handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+
+        if (validateForm()) {
+
+            // Perform form submission logic here
+            console.log('Form submitted:', formData);
+            // Reset form fields
+            setFormData(fields);
+
+            toast({
+                title: 'User Created!',
+                description: `Email: ${formData.email}`,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+
+    };
+
+    const [formData, setFormData] = useState(fields);
+
+    const handleChange = (e: { target: { name: any; value: any; }; }) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const validateForm = () => {
+        let errors = fields;
+
+        // Validate email
+        if (!formData.email) {
+            errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            errors.email = 'Invalid email format';
+        }
+
+        // Validate password
+        if (!formData.pass) {
+            errors.pass = 'Password is required';
+        }
+
+        if (!formData.conpass) {
+            errors.conpass = 'Confirm Password is required and should be same as Password!';
+        } else if (formData.pass !== formData.conpass) {
+            errors.conpass = 'Should be same as Password!';
+        }
+
+        if (!formData.fname) {
+            errors.fname = 'First Name is Required';
+        }
+
+
+        if (!formData.lname) {
+            errors.lname = 'Last Name is required';
+        }
+
+        setErrors(errors);
+
+        console.log(errors);
+
+        // Return true if there are no errors
+        return Object.values(errors).every(value => value === '');
+    };
 
     return (
         <><TitleBar /><Flex
@@ -99,27 +146,43 @@ const SignUp: React.FC = () => {
                                     <InputLeftElement
                                         pointerEvents="none"
                                         children={<CFaUserAlt color="gray.300" />} />
-                                    <Input type="email" name="email" placeholder="email address" />
+                                    <Input name="email" value={formData.email} onChange={handleChange} type="email" placeholder="email address" />
                                 </InputGroup>
                             </FormControl>
-
+                            {errors.email !== '' && (
+                                <Alert status="error" marginTop="2">
+                                    <AlertIcon />
+                                    {errors.email}
+                                </Alert>
+                            )}
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
                                         pointerEvents="none"
                                         children={<CPortrait color="gray.300" />} />
-                                    <Input type="text" name="fname" placeholder="First Name" />
+                                    <Input type="text" name="fname" value={formData.fname} onChange={handleChange} placeholder="First Name" />
                                 </InputGroup>
                             </FormControl>
-
+                            {errors.fname !== '' && (
+                                <Alert status="error" marginTop="2">
+                                    <AlertIcon />
+                                    {errors.fname}
+                                </Alert>
+                            )}
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
                                         pointerEvents="none"
                                         children={<CPortrait color="gray.300" />} />
-                                    <Input type="text" name="lname" placeholder="Last Name" />
+                                    <Input type="text" name="lname" value={formData.lname} onChange={handleChange} placeholder="Last Name" />
                                 </InputGroup>
                             </FormControl>
+                            {errors.lname !== '' && (
+                                <Alert status="error" marginTop="2">
+                                    <AlertIcon />
+                                    {errors.lname}
+                                </Alert>
+                            )}
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
@@ -128,8 +191,7 @@ const SignUp: React.FC = () => {
                                         children={<CFaLock color="gray.300" />} />
                                     <Input
                                         type={showPassword ? "text" : "password"}
-                                        name="pass"
-                                        placeholder="Password" />
+                                        name="pass" value={formData.pass} onChange={handleChange} placeholder="Password" />
                                     <InputRightElement width="4.5rem">
                                         <Button h="1.75rem" size="sm" onClick={handleShowClick}>
                                             {showPassword ? "Hide" : "Show"}
@@ -137,16 +199,22 @@ const SignUp: React.FC = () => {
                                     </InputRightElement>
                                 </InputGroup>
                             </FormControl>
+                            {errors.pass !== '' && (
+                                <Alert status="error" marginTop="2">
+                                    <AlertIcon />
+                                    {errors.pass}
+                                </Alert>
+                            )}
                             <FormControl>
                                 <InputGroup>
                                     <InputLeftElement
                                         pointerEvents="none"
                                         color="gray.300"
                                         children={<CFaLock color="gray.300" />} />
-                                    <Input
+                                    <Input name="conpass" value={formData.conpass} onChange={handleChange}
                                         type={showConfirmPassword ? "text" : "password"}
                                         placeholder="Confirm Password"
-                                        name="conpass" />
+                                    />
                                     <InputRightElement width="4.5rem">
                                         <Button h="1.75rem" size="sm" onClick={handleShowConfirmClick}>
                                             {showConfirmPassword ? "Hide" : "Show"}
@@ -154,7 +222,12 @@ const SignUp: React.FC = () => {
                                     </InputRightElement>
                                 </InputGroup>
                             </FormControl>
-
+                            {errors.conpass !== '' && (
+                                <Alert status="error" marginTop="2">
+                                    <AlertIcon />
+                                    {errors.conpass}
+                                </Alert>
+                            )}
                             <FormControl>
                                 <InputGroup>
                                     <RadioGroup name="utype" onChange={setValue} value={value}>
@@ -176,6 +249,12 @@ const SignUp: React.FC = () => {
                             </Button>
                         </Stack>
                     </form>
+                    {errors.generalError !== '' && (
+                                <Alert status="error" marginTop="2">
+                                    <AlertIcon />
+                                    {errors.generalError}
+                                </Alert>
+                            )}
                 </Box>
             </Stack>
 

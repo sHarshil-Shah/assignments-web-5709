@@ -17,19 +17,34 @@ const data = [
 ];
 
 const TableWithFilters = () => {
-    const [filter, setFilter] = useState('');
+    const [filterEmail, setFilterEmail] = useState('');
+    const [filterFirstName, setFilterFirstName] = useState('');
+    const [filterLastName, setFilterLastName] = useState('');
 
-    const handleFilterChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-        setFilter(event.target.value);
+    const handleEmailFilterChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+        setFilterEmail(event.target.value);
     };
 
-    const filteredData = data.filter((item) =>
-        item.email.toLowerCase().includes(filter.toLowerCase())
+    const handleFirstNameFilterChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+        setFilterFirstName(event.target.value);
+    };
+
+    const handleLastNameFilterChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+        setFilterLastName(event.target.value);
+    };
+
+    const filteredData = data.filter((item) => {
+        return item.email.toLowerCase().includes(filterEmail.toLowerCase()) &&
+            item.fname.toLowerCase().includes(filterFirstName.toLowerCase()) &&
+            item.lname.toLowerCase().includes(filterLastName.toLowerCase())
+            ;
+    }
+
     );
 
     return (
         <><TitleBar></TitleBar>
-            <Table variant="striped" mt={70}>
+            <Table variant="striped" mt={30}>
                 <Thead>
                     <Tr>
                         <Th>No</Th>
@@ -43,14 +58,20 @@ const TableWithFilters = () => {
                         <Td></Td>
                         <Td>
                             <Input
-                                placeholder="Filter Name"
-                                value={filter}
-                                onChange={handleFilterChange} />
+                                placeholder="Filter Via Email"
+                                value={filterEmail}
+                                onChange={handleEmailFilterChange} />
                         </Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
-                        <Td></Td>
+                        <Td> <Input
+                            placeholder="Filter First Name"
+                            value={filterFirstName}
+                            onChange={handleFirstNameFilterChange} /></Td>
+                        <Td> <Input
+                            placeholder="Filter Last name"
+                            value={filterLastName}
+                            onChange={handleLastNameFilterChange} /></Td>
+                        <Td> </Td>
+                        <Td> </Td>
                     </Tr>
                 </Thead>
                 <Tbody>
