@@ -20,18 +20,20 @@ The classmate application provides a digital platform for students, professors, 
 
 ## Page Details
 
-###https://classmate-harshil.netlify.app/ - login page
-####1. Professor Test ID (Leads to Professor Dashboard)
+### https://classmate-harshil.netlify.app/ - login page
+
+#### 1. Professor Test ID (Leads to Professor Dashboard)
+
 email: prof@mail.com 
 Password: profpass
-####2. Admin Test ID (Leads to Admin Dashboard)
+#### 2. Admin Test ID (Leads to Admin Dashboard)
 email: admin@mail.com 
 Password: adminpass
 ####3. Student Test ID (Leads to Student Dashboard)
 email: stud@mail.com 
 Password: studpass
 
-###https://classmate-harshil.netlify.app/admin - admin page
+### https://classmate-harshil.netlify.app/admin - admin page
 - Create User - https://classmate-harshil.netlify.app/signup
 - Manage Users - https://classmate-harshil.netlify.app/users
 
