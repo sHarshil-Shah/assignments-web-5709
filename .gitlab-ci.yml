@@ -16,3 +16,20 @@ build-deploy-job:
     - npm run build
     - npm install -g netlify-cli
     - netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID --dir dist/
+  only:
+    changes:
+      - "Assignment 1/individual/classmate"
+
+
+build-deploy-job-2:
+  stage: build
+  script:
+    - cd "Assignment 2/frontend"
+    - npm install --save-dev vite
+    - npm install
+    - npm run build
+    - npm install -g netlify-cli
+    - netlify deploy --prod --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID_A_2 --dir dist/
+  only:
+    changes:
+      - "Assignment 2/frontend"
