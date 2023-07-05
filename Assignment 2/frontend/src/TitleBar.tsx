@@ -27,9 +27,8 @@ const TitleBar = () => {
       ]);
     } else {
       setMenuOptions([
-        { title: 'Home', route: '/' },
-        { title: 'About', route: '/about' },
-        { title: 'Products', route: '/products' },
+        { title: 'Courses', route: '/' },
+        { title: 'Logout', route: '/Logout' },
         // Add more menu options as needed
       ]);
     }
